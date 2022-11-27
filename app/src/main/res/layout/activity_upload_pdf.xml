@@ -59,7 +59,7 @@
             android:id="@+id/pdfTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="No file selected"
+            android:text="No File Selected"
             android:layout_gravity="center"
             android:textSize="16sp"/>
 

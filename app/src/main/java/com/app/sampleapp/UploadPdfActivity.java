@@ -1,10 +1,5 @@
 package com.app.sampleapp;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.cardview.widget.CardView;
-
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -17,6 +12,11 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -72,10 +72,10 @@ public class UploadPdfActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 title = pdfTitle.getText().toString();
-                if (title.isEmpty()){
+                if(title.isEmpty()){
                     pdfTitle.setError("Empty");
                     pdfTitle.requestFocus();
-                }else if (pdfData == null){
+                }else if(pdfData == null){
                     Toast.makeText(UploadPdfActivity.this, "Please Select PDF", Toast.LENGTH_SHORT).show();
                 }else {
                     uploadPdf();
@@ -88,7 +88,7 @@ public class UploadPdfActivity extends AppCompatActivity {
         pd.setTitle("Please Wait...");
         pd.setMessage("Uploading PDF");
         pd.show();
-        StorageReference reference = storageReference.child("pdf/"+pdfName+"-"+System.currentTimeMillis()+".pdf");
+        StorageReference reference = storageReference.child("pdf/"+ pdfName+"-"+System.currentTimeMillis()+".pdf");
         reference.putFile(pdfData)
                 .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                     @Override
@@ -102,7 +102,7 @@ public class UploadPdfActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         pd.dismiss();
-                        Toast.makeText(UploadPdfActivity.this, "Something went wrong...", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(UploadPdfActivity.this, "Something went wrong", Toast.LENGTH_SHORT).show();
                     }
                 });
     }
@@ -138,6 +138,7 @@ public class UploadPdfActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent,"Select PDF File"),REQ);
     }
 
+
     @SuppressLint("Range")
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -145,11 +146,11 @@ public class UploadPdfActivity extends AppCompatActivity {
         if (requestCode == REQ && resultCode == RESULT_OK){
             pdfData = data.getData();
 
-            if (pdfData.toString().startsWith("context://")) {
+            if (pdfData.toString().startsWith("content://")) {
                 Cursor cursor = null;
                 try {
                     cursor = UploadPdfActivity.this.getContentResolver().query(pdfData,null,null,null,null);
-                    if (cursor !=null && cursor.moveToFirst()){
+                    if (cursor != null && cursor.moveToFirst()){
                         pdfName = cursor.getString(cursor.getColumnIndex(OpenableColumns.DISPLAY_NAME));
                     }
                 } catch (Exception e) {
