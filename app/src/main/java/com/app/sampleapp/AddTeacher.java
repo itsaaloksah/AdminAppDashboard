@@ -211,5 +211,3 @@ public class AddTeacher extends AppCompatActivity {
         }
     }
 }
-//added comment for testing purpose of merge request
-//added comment 2
